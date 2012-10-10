@@ -1,11 +1,19 @@
 import SplunkConnector
+import SplunkBriteConstants as Constants
 
 class SplunkDataSynchronizer(object):
-        
-        splunkConnection = None
         
         def __init__(self, splunkConnector):
                 self.splunkConnection = splunkConnector
 
-        def getLatestDataRow(self):
-                self.splunkConnection = self.splunkConnection.blockingSearch("head")
+        def getLatestEventTimestampFromSplunkData(self):
+                dataRow = self.__getLatestDataRow()
+                return __getTimestampFromDataRow(dataRow)
+
+        def __getTimestampFromDataRow(self,dataRow):
+                return dataRow[0][Contants.SPLUNK_TIMESTAMP_FIELD_NAME]
+
+        def __getLatestDataRow(self):
+                searchForLatestDataRow = "index = \""+ Constants.SPLUNK_INDEX_NAME +"\""
+                self.splunkConnection = self.splunkConnection.blockingSearch(searchForLatestDataRow)
+

@@ -22,8 +22,8 @@ def GetSearchData(uri):
 
 	for x in dom.getElementsByTagName('event'):
 
-		#timestamp = x.getElementsByTagName('created')[0].firstChild.nodeValue
-		timestamp = str(datetime.now())
+		timestamp = x.getElementsByTagName('created')[0].firstChild.nodeValue
+		#timestamp = str(datetime.now())
 				
 		id        = "id=\"" + x.getElementsByTagName('id')[0].firstChild.nodeValue + "\""
 		title     = "title=\"" + x.getElementsByTagName('title')[0].firstChild.nodeValue +"\""

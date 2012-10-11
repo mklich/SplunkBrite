@@ -26,7 +26,10 @@ class SplunkDataSynchronizer(object):
                 for result in results.ResultsReader(dataRow.results()):
                         pass
 
-                return result[1]["id"]
+                if result == None:
+                        return None
+                else:
+                        return result[1]["id"]
 
         def __getLatestDataRowBasedOnId(self):
                 searchForLatestDataRow="search index=\""+Constants.SPLUNK_INDEX_NAME +"\" sourcetype=\""+Constants.SPLUNK_SOURCETYPE_FIELD_NAME+"\" | sort - "+Constants.SPLUNK_ID_FIELD_NAME+" | head 1 | table "+Constants.SPLUNK_ID_FIELD_NAME+""

@@ -9,9 +9,14 @@ splunk = SplunkConnector("localhost",8089,"admin","changeme")
 synchronizer = SplunkDataSynchronizer(splunk)
 lastId = synchronizer.getLastInputId()
 
-maxValues = 100
+maxValues = 50
 
-uri = "https://www.eventbrite.com/xml/event_search?app_key=2ZFPC3WOTA4UPERJKG&country=US&max="+maxValues+"&since_id="+lastId
+uri = "https://www.eventbrite.com/xml/event_search?app_key=2ZFPC3WOTA4UPERJKG&country=US&max="+str(maxValues)
+
+if lastId != None:
+        uri = uri +"&since_id="+str(lastId)
+else:
+        uri = uri +"&date_created=Today"
 
 def GetSearchData(uri):
 	searchResultsXml = urllib2.urlopen(uri)

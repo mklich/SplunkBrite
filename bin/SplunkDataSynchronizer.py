@@ -1,5 +1,9 @@
-import SplunkConnector
+# -*- coding: utf-8 -*-
+
+from SplunkConnector import SplunkConnector
+
 import SplunkBriteConstants as Constants
+import splunklib.results as results
 
 class SplunkDataSynchronizer(object):
         
@@ -7,16 +11,29 @@ class SplunkDataSynchronizer(object):
                 self.splunkConnection = splunkConnector
 
         def getLatestEventTimestampFromSplunkData(self):
-                dataRow = self.__getLatestDataRow()
-                return __getTimestampFromDataRow(dataRow)
+                dataRow = self.__getLatestDataRowBasedOnId()
+                return self.__getTimestampFromDataRow(dataRow)
 
-        def __getTimestampFromDataRow(self,dataRow):
-                return dataRow[0][Contants.SPLUNK_TIMESTAMP_FIELD_NAME]
+        def getLastInputId(self):
+                dataRow = self.__getLatestDataRowBasedOnId()
+                #for result in results.ResultsReader(dataRow.results()):
+                #        print result
+                
+                return self.__getIdFromDataRow(dataRow)
+        
+        def __getIdFromDataRow(self,dataRow):
+                result = None
+                for result in results.ResultsReader(dataRow.results()):
+                        pass
 
-        def __getLatestDataRow(self):
-                searchForLatestDataRow = "index = \""+ Constants.SPLUNK_INDEX_NAME +"\" | " \
-                                "sourcetype=\""+ Constants.SPLUNK_SOURCETYPE_FIELD_NAME +"\"" \
-                                " | sort - "+SPLUNK_TIMESTAMP_FIELD_NAME + \
-                                " | head 1"
-                self.splunkConnection = self.splunkConnection.blockingSearch(searchForLatestDataRow)
+                return result[1]["id"]
 
+        def __getLatestDataRowBasedOnId(self):
+                searchForLatestDataRow="search index=\""+Constants.SPLUNK_INDEX_NAME +"\" sourcetype=\""+Constants.SPLUNK_SOURCETYPE_FIELD_NAME+"\" | sort - "+Constants.SPLUNK_ID_FIELD_NAME+" | head 1 | table "+Constants.SPLUNK_ID_FIELD_NAME+""
+                return self.splunkConnection.blockingSearch(searchForLatestDataRow)
+
+
+search = SplunkConnector("localhost",8089,"admin","changeme")
+sync = SplunkDataSynchronizer(search)
+
+print sync.getLastInputId()

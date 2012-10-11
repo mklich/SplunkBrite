@@ -8,15 +8,16 @@ def GetSearchData(uri):
 	xmlData = searchResultsXml.read()
 	searchResultsXml.close()
 	dom = parseString(xmlData)
-	
+	output = ''
 	for x in dom.getElementsByTagName('event'):
-		#xmlTag = x.toxml()
-		print x.getElementsByTagName('id')[0].firstChild.nodeValue
-		print x.getElementsByTagName('title')[0].firstChild.nodeValue
-		print x.getElementsByTagName('created')[0].firstChild.nodeValue
-		print x.getElementsByTagName('latitude')[0].firstChild.nodeValue
-		print x.getElementsByTagName('longitude')[0].firstChild.nodeValue
-			
+		 
+		a = x.getElementsByTagName('id')[0].firstChild.nodeValue
+		b = x.getElementsByTagName('title')[0].firstChild.nodeValue
+		c = x.getElementsByTagName('created')[0].firstChild.nodeValue
+		d = x.getElementsByTagName('latitude')[0].firstChild.nodeValue
+		e = x.getElementsByTagName('longitude')[0].firstChild.nodeValue
+		output = a+' '+b+' '+c+' '+d+' '+e
+		print output	
 
 GetSearchData(uri)
 

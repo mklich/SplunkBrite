@@ -13,11 +13,11 @@ def GetSearchData(uri):
 	for x in dom.getElementsByTagName('event'):
 
 		timestamp =  str(datetime.now()) 
-		a = "id=" + x.getElementsByTagName('id')[0].firstChild.nodeValue
+		a = "id=\"" + x.getElementsByTagName('id')[0].firstChild.nodeValue + "\""
 		b = "title=\"" + x.getElementsByTagName('title')[0].firstChild.nodeValue +"\""
-		c = "created=\[" + x.getElementsByTagName('created')[0].firstChild.nodeValue + "\]"
-		d = "latitude=" + x.getElementsByTagName('latitude')[0].firstChild.nodeValue
-		e = "longitude=" + x.getElementsByTagName('longitude')[0].firstChild.nodeValue
+		c = "created=[" + x.getElementsByTagName('created')[0].firstChild.nodeValue + "]"
+		d = "latitude=\"" + x.getElementsByTagName('latitude')[0].firstChild.nodeValue + "\""
+		e = "longitude=\"" + x.getElementsByTagName('longitude')[0].firstChild.nodeValue + "\""
 		output =  timestamp+' '+a+' '+b+' '+c+' '+d+' '+e
 		print output	
 

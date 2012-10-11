@@ -32,8 +32,3 @@ class SplunkDataSynchronizer(object):
                 searchForLatestDataRow="search index=\""+Constants.SPLUNK_INDEX_NAME +"\" sourcetype=\""+Constants.SPLUNK_SOURCETYPE_FIELD_NAME+"\" | sort - "+Constants.SPLUNK_ID_FIELD_NAME+" | head 1 | table "+Constants.SPLUNK_ID_FIELD_NAME+""
                 return self.splunkConnection.blockingSearch(searchForLatestDataRow)
 
-
-search = SplunkConnector("localhost",8089,"admin","changeme")
-sync = SplunkDataSynchronizer(search)
-
-print sync.getLastInputId()

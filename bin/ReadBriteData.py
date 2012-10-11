@@ -24,14 +24,18 @@ def GetSearchData(uri):
 	searchResultsXml.close()
 	dom = parseString(xmlData)
 	output = ''
+
 	for x in dom.getElementsByTagName('event'):
-		timestamp =  x.getElementsByTagName('created')[0].firstChild.nodeValue
-		id = "id=\"" + x.getElementsByTagName('id')[0].firstChild.nodeValue + "\""
-		title = "title=\"" + x.getElementsByTagName('title')[0].firstChild.nodeValue +"\""
-		created = "created=" + x.getElementsByTagName('created')[0].firstChild.nodeValue
-		long = "latitude=\"" + x.getElementsByTagName('latitude')[0].firstChild.nodeValue + "\""
-		lat = "longitude=\"" + x.getElementsByTagName('longitude')[0].firstChild.nodeValue + "\""
-		output = timestamp+' '+id+ ' '+created+' '+title+' '+long+' '+lat
+
+		timestamp = x.getElementsByTagName('created')[0].firstChild.nodeValue
+		#timestamp = str(datetime.now())
+				
+		id        = "id=\"" + x.getElementsByTagName('id')[0].firstChild.nodeValue + "\""
+		title     = "title=\"" + x.getElementsByTagName('title')[0].firstChild.nodeValue +"\""
+		created   = "created=" + x.getElementsByTagName('created')[0].firstChild.nodeValue
+		long      = "latitude=\"" + x.getElementsByTagName('latitude')[0].firstChild.nodeValue + "\""
+		lat       = "longitude=\"" + x.getElementsByTagName('longitude')[0].firstChild.nodeValue + "\""
+		output    =  timestamp+' '+id+' '+created+' '+title+' '+long+' '+lat
 		print output	
 
 GetSearchData(uri)

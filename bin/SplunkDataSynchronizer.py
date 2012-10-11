@@ -14,6 +14,8 @@ class SplunkDataSynchronizer(object):
                 return dataRow[0][Contants.SPLUNK_TIMESTAMP_FIELD_NAME]
 
         def __getLatestDataRow(self):
-                searchForLatestDataRow = "index = \""+ Constants.SPLUNK_INDEX_NAME +"\""
+                searchForLatestDataRow = "index = \""+ Constants.SPLUNK_INDEX_NAME +"\" | " \
+                                "sourcetype=\""+ Constants.SPLUNK_SOURCETYPE_FIELD_NAME +"\"" \
+                                " | sort - "+SPLUNK_TIMESTAMP_FIELD_NAME 
                 self.splunkConnection = self.splunkConnection.blockingSearch(searchForLatestDataRow)
 

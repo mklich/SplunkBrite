@@ -10,7 +10,9 @@ LIST_OF_FIELDS = [("id","id"), \
                 ("title","title"), \
                 ("created","created"), \
                 ("latitude","latitude"), \
-                ("longitude","longitude")]
+                ("longitude","longitude"), \
+                ("organizer","organizer.name")]
+
 
 TIMESTAMP_FIELD = "created"                    
 
@@ -24,21 +26,31 @@ class EventBriteDataParser:
                 # If there is a dot in the tagName, it means that we have a nested field
                 # so we recursively crawl down the xml tree
                 if "." in tagName:
-                        parentTag = tagName.split(':')[0]
-                        childTag = tagName[tagName.find(':')+1:]
-                        newParentDom = parentDOM.getElementsByTagName(parentTag)
+                        parentTag = tagName.split('.')[0]
+                        childTag = tagName[tagName.find('.')+1:]
+                        print "Parent: %s, Child: %s" % (parentTag, childTag) 
+                        newParentDom = parentDOM.getElementsByTagName(parentTag)[0]
+                        
+                        print newParentDom
+
                         return self.__getXmlData(newParentDom,childTag)
+               
+                # If a field does not exist, Skip..
+                if parentDOM == None or parentDOM.getElementsByTagName(tagName)[0] == None or parentDOM.getElementsByTagName(tagName)[0].firstChild == None: 
+                        return None
 
                 return parentDOM.getElementsByTagName(tagName)[0].firstChild.nodeValue
         
         def __getFieldAndValueRow(self,field,value):
+                if value == None:
+                        return ""
                 return "=".join([field,value.join(["\"","\""])])
 
         def __getEventBriteDataRow(self, parentDOM):
                 result = ""
                 # Add timestamp
                 result = self.__getXmlData(parentDOM, TIMESTAMP_FIELD) + " "
-
+                
                 result += " ".join([self.__getFieldAndValueRow(field[0],self.__getXmlData(parentDOM,field[1])) for field in LIST_OF_FIELDS])
                 
                 return result

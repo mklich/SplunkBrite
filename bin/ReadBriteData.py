@@ -5,15 +5,15 @@ from SplunkDataSynchronizer import SplunkDataSynchronizer
 from SplunkConnector import SplunkConnector
 from EventBriteDataParser import EventBriteDataParser
 
-splunk = SplunkConnector("localhost",8089,"admin","changeme")
+lastId = None
+#splunk = SplunkConnector("localhost",8089,"admin","changeme")
 
-synchronizer = SplunkDataSynchronizer(splunk)
-lastId = synchronizer.getLastInputId()
+#synchronizer = SplunkDataSynchronizer(splunk)
+#lastId = synchronizer.getLastInputId()
 
 maxValues = 25
 
 uri = "https://www.eventbrite.com/xml/event_search?app_key=2ZFPC3WOTA4UPERJKG&country=US&max="+str(maxValues)
-lastId = None
 
 if lastId != None:
         uri = uri +"&since_id="+str(lastId)

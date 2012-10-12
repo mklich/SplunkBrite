@@ -11,7 +11,7 @@ splunk = SplunkConnector("localhost",8089,"admin","changeme")
 synchronizer = SplunkDataSynchronizer(splunk)
 lastId = synchronizer.getLastInputId()
 
-maxValues = 25
+maxValues = 100
 
 uri = "https://www.eventbrite.com/xml/event_search?app_key=2ZFPC3WOTA4UPERJKG&country=US&max="+str(maxValues)
 

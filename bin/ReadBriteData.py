@@ -9,7 +9,7 @@ splunk = SplunkConnector("localhost",8089,"admin","changeme")
 synchronizer = SplunkDataSynchronizer(splunk)
 lastId = synchronizer.getLastInputId()
 
-maxValues = 50
+maxValues = 25
 
 uri = "https://www.eventbrite.com/xml/event_search?app_key=2ZFPC3WOTA4UPERJKG&country=US&max="+str(maxValues)
 
@@ -32,7 +32,7 @@ def GetSearchData(uri):
 				
 		id        = "id=\"" + x.getElementsByTagName('id')[0].firstChild.nodeValue + "\""
 		title     = "title=\"" + x.getElementsByTagName('title')[0].firstChild.nodeValue +"\""
-		created   = "created=" + x.getElementsByTagName('created')[0].firstChild.nodeValue
+		created   = "created=\"" + x.getElementsByTagName('created')[0].firstChild.nodeValue +"\""
 		long      = "latitude=\"" + x.getElementsByTagName('latitude')[0].firstChild.nodeValue + "\""
 		lat       = "longitude=\"" + x.getElementsByTagName('longitude')[0].firstChild.nodeValue + "\""
 		output    =  timestamp+' '+id+' '+created+' '+title+' '+long+' '+lat

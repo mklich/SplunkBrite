@@ -25,7 +25,7 @@ def GetSearchData(uri):
 	xmlData = searchResultsXml.read()
         searchResultsXml.close()
         
-        eventData = EventBriteData(xmlData)
+        eventData = EventBriteDataParser(xmlData)
         
         print eventData.getSplunkInput()
 

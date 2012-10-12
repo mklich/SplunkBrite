@@ -20,6 +20,15 @@ class EventBriteDataParser:
                 self.xmlData = xmlData
 
         def __getXmlData(self, parentDOM, tagName):
+                
+                # If there is a dot in the tagName, it means that we have a nested field
+                # so we recursively crawl down the xml tree
+                if "." in tagName:
+                        parentTag = tagName.split(':')[0]
+                        childTag = tagName[tagName.find(':')+1:]
+                        newParentDom = parentDOM.getElementsByTagName(parentTag)
+                        return self.__getXmlData(newParentDom,childTag)
+
                 return parentDOM.getElementsByTagName(tagName)[0].firstChild.nodeValue
         
         def __getFieldAndValueRow(self,field,value):

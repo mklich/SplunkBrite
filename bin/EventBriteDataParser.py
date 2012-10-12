@@ -11,7 +11,12 @@ LIST_OF_FIELDS = [("id","id"), \
                 ("created","created"), \
                 ("latitude","latitude"), \
                 ("longitude","longitude"), \
-                ("organizer","organizer.name")]
+                ("organizer","organizer.url"), \
+		("currency","tickets.ticket.currency"), \
+		("price","tickets.ticket.price"), \
+		("city","venue.city"), \
+		("country","venue.country"), \
+		("state","venue.region")]
 
 
 TIMESTAMP_FIELD = "created"                    

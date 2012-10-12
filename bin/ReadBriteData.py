@@ -3,6 +3,7 @@ from xml.dom.minidom import parseString
 from datetime import datetime
 from SplunkDataSynchronizer import SplunkDataSynchronizer
 from SplunkConnector import SplunkConnector
+from EventBriteDataParser import EventBriteDataParser
 
 splunk = SplunkConnector("localhost",8089,"admin","changeme")
 
@@ -12,6 +13,7 @@ lastId = synchronizer.getLastInputId()
 maxValues = 25
 
 uri = "https://www.eventbrite.com/xml/event_search?app_key=2ZFPC3WOTA4UPERJKG&country=US&max="+str(maxValues)
+lastId = None
 
 if lastId != None:
         uri = uri +"&since_id="+str(lastId)
@@ -21,22 +23,12 @@ else:
 def GetSearchData(uri):
 	searchResultsXml = urllib2.urlopen(uri)
 	xmlData = searchResultsXml.read()
-	searchResultsXml.close()
-	dom = parseString(xmlData)
-	output = ''
+        searchResultsXml.close()
+        
+        eventData = EventBriteData(xmlData)
+        
+        print eventData.getSplunkInput()
 
-	for x in dom.getElementsByTagName('event'):
-
-		timestamp = x.getElementsByTagName('created')[0].firstChild.nodeValue
-		#timestamp = str(datetime.now())
-				
-		id        = "id=\"" + x.getElementsByTagName('id')[0].firstChild.nodeValue + "\""
-		title     = "title=\"" + x.getElementsByTagName('title')[0].firstChild.nodeValue +"\""
-		created   = "created=\"" + x.getElementsByTagName('created')[0].firstChild.nodeValue +"\""
-		long      = "latitude=\"" + x.getElementsByTagName('latitude')[0].firstChild.nodeValue + "\""
-		lat       = "longitude=\"" + x.getElementsByTagName('longitude')[0].firstChild.nodeValue + "\""
-		output    =  timestamp+' '+id+' '+created+' '+title+' '+long+' '+lat
-		print output	
 
 GetSearchData(uri)
 

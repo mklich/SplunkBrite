@@ -37,7 +37,7 @@ class EventBriteDataParser:
                         return self.__getXmlData(newParentDom,childTag)
                
                 # If a field does not exist, Skip..
-                if parentDOM == None or parentDOM.getElementsByTagName(tagName)[0] == None or parentDOM.getElementsByTagName(tagName).length == 0 or  parentDOM.getElementsByTagName(tagName)[0].firstChild == None: 
+                if parentDOM == None or parentDOM.getElementsByTagName(tagName).length == 0 or parentDOM.getElementsByTagName(tagName)[0] == None or parentDOM.getElementsByTagName(tagName)[0].firstChild == None: 
                         return None
 
                 return parentDOM.getElementsByTagName(tagName)[0].firstChild.nodeValue

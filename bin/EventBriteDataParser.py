@@ -30,12 +30,15 @@ class EventBriteDataParser:
                 
                 # If there is a dot in the tagName, it means that we have a nested field
                 # so we recursively crawl down the xml tree
-                if "." in tagName:
+               
+		if "." in tagName:
                         parentTag = tagName.split('.')[0]
                         childTag = tagName[tagName.find('.')+1:]
-                        newParentDom = parentDOM.getElementsByTagName(parentTag)[0]
+                     	if parentDOM.getElementsByTagName(tagName).length == 0
+				return none
+			newParentDom = parentDOM.getElementsByTagName(tagName)[0] 
                         return self.__getXmlData(newParentDom,childTag)
-               
+
                 # If a field does not exist, Skip..
                 if parentDOM == None or parentDOM.getElementsByTagName(tagName).length == 0 or parentDOM.getElementsByTagName(tagName)[0] == None or parentDOM.getElementsByTagName(tagName)[0].firstChild == None: 
                         return None

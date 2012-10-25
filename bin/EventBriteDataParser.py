@@ -35,9 +35,9 @@ class EventBriteDataParser:
 		if "." in tagName:
                         parentTag = tagName.split('.')[0]
                         childTag = tagName[tagName.find('.')+1:]
-                     	if parentDOM.getElementsByTagName(tagName).length == 0:
+                     	if parentDOM.getElementsByTagName(parentTag).length == 0:
 				return None
-			newParentDom = parentDOM.getElementsByTagName(tagName)[0] 
+			newParentDom = parentDOM.getElementsByTagName(parentTag)[0] 
                         return self.__getXmlData(newParentDom,childTag)
 
                 # If a field does not exist, Skip..

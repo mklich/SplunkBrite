@@ -6,7 +6,7 @@ from SplunkConnector import SplunkConnector
 from EventBriteDataParser import EventBriteDataParser
 
 lastId = None
-splunk = SplunkConnector("localhost",8081,"admin","changeme")
+splunk = SplunkConnector("localhost",8089,"admin","changeme")
 
 synchronizer = SplunkDataSynchronizer(splunk)
 lastId = synchronizer.getLastInputId()

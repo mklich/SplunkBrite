@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<view AutoCancelInterval="90" isVisible="true" onunloadCancelJobs="true" refresh="-1" template="dashboard.html">
+  <label/>
+  <module name="AccountBar" layoutPanel="appHeader"/>
+  <module name="AppBar" layoutPanel="navigationHeader"/>
+  <module name="Message" layoutPanel="messaging">
+    <param name="filter">*</param>
+    <param name="maxSize">1</param>
+    <param name="clearOnJobDispatch">False</param>
+  </module>
+  <module name="DashboardTitleBar" layoutPanel="viewHeader"/>
+  <module name="Message" layoutPanel="navigationHeader">
+    <param name="filter">splunk.search.job</param>
+    <param name="level">warn</param>
+    <param name="maxSize">1</param>
+    <param name="clearOnJobDispatch">True</param>
+  </module>
+
+  <module name="GenericHeader" layoutPanel="panel_row1_col1" autoRun="True">
+        <label>SplunkBrite</label>
+        <param name="label">Geographical Locations of Events</param>
+        <module name="HiddenSearch" group="Map View" autoRun="True" layout_panel="panel_row1_col1">
+          <param name="search">index="splunkbrite" | eval _geo = latitude+","+longitude </param>
+            <param name="earliest">rt-30d</param>
+            <param name="latest">rt</param>
+            <module name="GoogleMaps">
+                <param name="autoPostProcess">false</param>
+                <param name="drilldown">true</param>
+                <param name="drilldown_field">id</param>
+                <param name="height">500px</param>
+                <param name="mapType">terrain</param>
+                <param name="mapTypeControl">on</param>
+                <param name="navigationControl">on</param>
+                <param name="scaleControl">on</param>
+                <param name="scrollwheel">off</param>
+                <param name="zoomLevel">3</param>
+            </module>
+       </module>
+  </module>
+</view>

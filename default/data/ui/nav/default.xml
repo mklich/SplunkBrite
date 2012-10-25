@@ -1,0 +1,5 @@
+<nav>
+  <collection label="SplunkBrite">
+    <view name="SplunkBrite" />
+  </collection>
+</nav>

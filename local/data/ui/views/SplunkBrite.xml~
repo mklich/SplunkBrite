@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <view AutoCancelInterval="90" isVisible="true" onunloadCancelJobs="true" refresh="-1" template="dashboard.html">
   <label/>
+  
   <module name="AccountBar" layoutPanel="appHeader"/>
   <module name="AppBar" layoutPanel="navigationHeader"/>
   <module name="Message" layoutPanel="messaging">
@@ -8,6 +9,7 @@
     <param name="maxSize">1</param>
     <param name="clearOnJobDispatch">False</param>
   </module>
+  
   <module name="DashboardTitleBar" layoutPanel="viewHeader"/>
   <module name="Message" layoutPanel="navigationHeader">
     <param name="filter">splunk.search.job</param>
@@ -15,18 +17,24 @@
     <param name="maxSize">1</param>
     <param name="clearOnJobDispatch">True</param>
   </module>
+  
+  <module name="StaticContentSample" layoutPanel="panel_row1_col1">
+    <param name="text"><![CDATA[
+      This app enables you to find events close and far! Go have fun!
+    ]]></param>
+  </module>
 
   <module name="GenericHeader" layoutPanel="panel_row1_col1" autoRun="True">
         <label>SplunkBrite</label>
         <param name="label">Geographical Locations of Events</param>
         <module name="HiddenSearch" group="Map View" autoRun="True" layout_panel="panel_row1_col1">
           <param name="search">index="splunkbrite" | eval _geo = latitude+","+longitude </param>
-            <param name="earliest">rt-30d</param>
+            <param name="earliest">rt-1000h</param>
             <param name="latest">rt</param>
             <module name="GoogleMaps">
                 <param name="autoPostProcess">false</param>
                 <param name="drilldown">true</param>
-                <param name="drilldown_field">id</param>
+                <param name="drilldown_field">_geo</param>
                 <param name="height">500px</param>
                 <param name="mapType">terrain</param>
                 <param name="mapTypeControl">on</param>
@@ -34,6 +42,58 @@
                 <param name="scaleControl">on</param>
                 <param name="scrollwheel">off</param>
                 <param name="zoomLevel">3</param>
+                
+                <module name="HiddenSearch" layoutPanel="panel_row2_col1" autoRun="True">
+                  <param name="search">index="splunkbrite" $_geo$</param>
+                  <module name="ConvertToIntention">
+                    <param name="settingToConvert">maps.drilldown</param>
+                    <param name="intention">
+                      <param name="name">stringreplace</param>
+                      <param name="arg">
+                        <param name="_geo">
+                          <param name="value">$target$</param>
+                        </param>
+                      </param>
+                    </param>
+                    
+                    <module name="JobProgressIndicator">
+                    </module>
+                    
+                    <module name="HiddenPostProcess">
+                      <param name="search"> index="splunkbrite" * </param>
+                      <module name="SimpleResultsTable">
+                        <param name="drilldown">row</param>
+                        <param name="count">1000</param>
+                        <param name="entityName">results</param>
+                        <module name="HiddenSearch">
+                          <param name="search">index="splunkbrite" _geo="$_geo$"</param>
+                          <module name="ConvertToIntention">
+                            <param name="settingToConvert">click.value</param>
+                            <param name="intention">
+                              <param name="name">stringreplace</param>
+                              <param name="arg">
+                                <param name="_geo">
+                                  <param name="value">$target$</param>
+                                </param>
+                              </param>
+                            </param>
+                            <module name="ViewRedirector">
+                              <param name="ViewTarget">flashtimeline</param>
+                              <param name="popup">true</param>
+                            </module>
+                          </module>
+                        </module>
+                      </module>
+                    </module>
+                    
+                    <module name="ViewRedirectorLink">
+                      <param name="label">View events...</param>
+                      <param name="viewTarget">flashtimeline</param>
+                    </module>
+                    
+                  </module>
+                </module>
+                
             </module>
        </module>
   </module>

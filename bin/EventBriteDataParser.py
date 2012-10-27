@@ -7,17 +7,23 @@ PARENT_TAG_NAME = "event"
 
 # List containing the name of the tag aswell as the name that will be parsed as a field in Splunk 
 LIST_OF_FIELDS = [("id","id"), \
-                ("title","title"), \
+                ("event_title","title"), \
                 ("created","created"), \
                 ("latitude","latitude"), \
                 ("longitude","longitude"), \
-                ("organizer","organizer.url"), \
-		("currency","tickets.ticket.currency"), \
-		("price","tickets.ticket.price"), \
-		("ticketname","tickets.ticket.name"), \
-		("city","venue.city"), \
-		("country","venue.country"), \
-		("state","venue.region")]
+                ("event_url","url"), \
+                ("organizer_name","organizer.name"), \
+                ("event_startdate","event.start_date"), \
+                ("event_enddate","end_date"), \
+                ("event_tags","tags"), \
+                ("event_capacity","capacity"), \
+                ("event_category","category"), \
+		("ticket_currency","tickets.ticket.currency"), \
+		("ticket_price","tickets.ticket.price"), \
+		("ticket_name","tickets.ticket.name"), \
+		("venue_city","venue.city"), \
+		("venue_country","venue.country"), \
+		("venue_state","venue.region")]
 
 
 TIMESTAMP_FIELD = "created"                    

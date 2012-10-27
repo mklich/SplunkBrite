@@ -7,17 +7,23 @@ PARENT_TAG_NAME = "event"
 
 # List containing the name of the tag aswell as the name that will be parsed as a field in Splunk 
 LIST_OF_FIELDS = [("id","id"), \
-                ("title","title"), \
+                ("event_title","event.title"), \
                 ("created","created"), \
                 ("latitude","latitude"), \
                 ("longitude","longitude"), \
-                ("organizer","organizer.url"), \
-		("currency","tickets.ticket.currency"), \
-		("price","tickets.ticket.price"), \
-		("ticketname","tickets.ticket.name"), \
-		("city","venue.city"), \
-		("country","venue.country"), \
-		("state","venue.region")]
+                ("event_url","event.url"), \
+                ("organizer_name","organizer.name"), \
+                ("event_startdate","event.start_date"), \
+                ("event_enddate","event.end_date"), \
+                ("event_tags","event.tags"), \
+                ("event_capacity","event.capacity"), \
+                ("event_category","event.category"), \
+		("ticket_currency","tickets.ticket.currency"), \
+		("ticket_price","tickets.ticket.price"), \
+		("ticket_name","tickets.ticket.name"), \
+		("venue_city","venue.city"), \
+		("venue_country","venue.country"), \
+		("venue_state","venue.region")]
 
 
 TIMESTAMP_FIELD = "created"                    
@@ -35,9 +41,9 @@ class EventBriteDataParser:
 		if "." in tagName:
                         parentTag = tagName.split('.')[0]
                         childTag = tagName[tagName.find('.')+1:]
-                     	if parentDOM.getElementsByTagName(tagName).length == 0:
+                     	if parentDOM.getElementsByTagName(parentTag).length == 0:
 				return None
-			newParentDom = parentDOM.getElementsByTagName(tagName)[0] 
+			newParentDom = parentDOM.getElementsByTagName(parentTag)[0] 
                         return self.__getXmlData(newParentDom,childTag)
 
                 # If a field does not exist, Skip..
